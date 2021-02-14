@@ -1,22 +1,26 @@
+"""This application is to to help a user learn the spanish language.
+If the user knows the word and meaning, they should click on the check mark image and the word won't show again
+else they should click on the cross image to keep showing the word.
+
+PS: The words are not removed from the list entirely, only removed for the current time the application is running. """
+
 from tkinter import *
 import pandas as pd
 import random
 
 # Get the data
-data = pd.read_csv("Spanish_words.csv")
+data = pd.read_csv("learning/Spanish_words.csv")
 language_data = data.to_dict(orient="records")
 current_word = {}
 
 
 def next_card():
-    """This function displays random words to the user"""
-    global current_word, flip_timer
-    interface.after_cancel(flip_timer)
+    """This function displays spanish word to the user"""
+    global current_word
     current_word = random.choice(language_data)
     canvas.itemconfig(language, text="Spanish", fill="black")
     canvas.itemconfig(word, text=current_word["Spanish"], fill="black")
     canvas.itemconfig(card_image, image=front_image)
-    flip_timer = interface.after(5000, func=flip_card)
 
 
 def flip_card():
@@ -26,6 +30,12 @@ def flip_card():
     canvas.itemconfig(card_image, image=back_image)
 
 
+def known_words():
+    language_data.remove(current_word)
+    print(len(language_data))
+    next_card()
+
+
 BACKGROUND_COLOR = "#3396ff"
 
 # Setup the User interface
@@ -33,7 +43,7 @@ interface = Tk()
 interface.title("Study the Spanish Language")
 interface.config(padx=50, pady=50, bg=BACKGROUND_COLOR)
 
-flip_timer = interface.after(5000, func=flip_card)
+# flip_timer = interface.after(5000, func=flip_card)
 
 # Add front card image using canvas widget
 canvas = Canvas(width=340, height=210)
@@ -50,8 +60,11 @@ unknown_button = Button(image=cross, highlightthickness=0, command=next_card)
 unknown_button.grid(column=0, row=1)
 
 check = PhotoImage(file="verify/known.png")
-known_button = Button(image=check, highlightthickness=0, command=next_card)
+known_button = Button(image=check, highlightthickness=0, command=known_words)
 known_button.grid(column=1, row=1)
+
+flip_button = Button(text="Flip Card", padx=10, pady=10, highlightthickness=0, command=flip_card)
+flip_button.grid(column=0, columnspan=2, row=2)
 
 next_card()
 
