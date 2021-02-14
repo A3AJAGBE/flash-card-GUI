@@ -40,10 +40,8 @@ BACKGROUND_COLOR = "#3396ff"
 
 # Setup the User interface
 interface = Tk()
-interface.title("Study the Spanish Language")
+interface.title("A3AJAGBE LANGUAGE FLASH CARD")
 interface.config(padx=50, pady=50, bg=BACKGROUND_COLOR)
-
-# flip_timer = interface.after(5000, func=flip_card)
 
 # Add front card image using canvas widget
 canvas = Canvas(width=340, height=210)
@@ -63,8 +61,9 @@ check = PhotoImage(file="verify/known.png")
 known_button = Button(image=check, highlightthickness=0, command=known_words)
 known_button.grid(column=1, row=1)
 
-flip_button = Button(text="Flip Card", padx=10, pady=10, highlightthickness=0, command=flip_card)
-flip_button.grid(column=0, columnspan=2, row=2)
+flip_button = Button(text="Flip Card", font=("Arial", 15, "normal"), command=flip_card)
+flip_button.config(padx=10, pady=10, highlightthickness=0)
+flip_button.grid(column=0, columnspan=2,  row=2)
 
 next_card()
 
