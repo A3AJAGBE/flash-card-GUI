@@ -1,4 +1,11 @@
 from tkinter import *
+import pandas as pd
+
+# Get the data
+data = pd.read_csv("Spanish_words.csv")
+language_data = data.to_dict(orient="records")
+print(language_data)
+
 
 BACKGROUND_COLOR = "#007bff"
 
